@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 env:
+  ORGANIZATION_NAME: dev-dangeline
   REPOSITORY_NAME: lab-node
   ECS_SERVICE: svc-lab-node
   ECS_CLUSTER: cluster-dev-01
@@ -31,7 +32,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/dev-dangeline/${{ env.REPOSITORY_NAME }}:${{ github.run_id }}
+          tags: ghcr.io/${{ env.ORGANIZATION_NAME }}/${{ env.REPOSITORY_NAME }}:${{ github.run_id }}
 
   deploy:
     name: Deploy
@@ -63,7 +64,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
-          image: ghcr.io/dev-dangeline/${{ env.REPOSITORY_NAME }}:${{ github.run_id }}
+          image: ghcr.io/${{ env.ORGANIZATION_NAME }}/${{ env.REPOSITORY_NAME }}:${{ github.run_id }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
