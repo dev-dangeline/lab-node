@@ -6,7 +6,7 @@ on:
 env:
   ECS_SERVICE: svc-svc-lab-node
   ECS_CLUSTER: cluster-dev-01
-  ECS_TASK_DEFINITION: ecs.capability.task-eni
+  ECS_TASK_DEFINITION: service:6
   CONTAINER_NAME: application_container
 
 permissions:
@@ -33,18 +33,31 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.TOKEN_DOCKER }}
+
+      - name: Build, tag, and push image to Amazon ECR
+        run: |
+          docker build -t gustavohenrico/lab-node:0.1 .
+          docker push gustavohenrico/lab-node:0.1
+          echo "::set-output name=image::gustavohenrico/lab-node:0.1"
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
-          image: gustavohenrico/lab-node:0.1
+          image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
