@@ -5,7 +5,7 @@ on:
     branches: ["master"]
 
 env:
-  ECS_SERVICE: svc-lab-node
+  ECS_SERVICE: svc-svc-lab-node
   ECS_CLUSTER: cluster-dev-01
   ECS_TASK_DEFINITION: service
   CONTAINER_NAME: application_container
