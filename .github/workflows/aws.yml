@@ -3,6 +3,12 @@ name: Deploy to Amazon ECS
 on:
   workflow_dispatch:
 
+env:
+  ECS_SERVICE: svc-lab-node
+  ECS_CLUSTER: cluster-dev-01
+  ECS_TASK_DEFINITION: lab-node
+  CONTAINER_NAME: application_container
+
 jobs:
   build:
     name: Build
