@@ -1,8 +1,7 @@
 name: Deploy to Amazon ECS
 
 on:
-  push:
-    branches: ["master"]
+  workflow_dispatch:
 
 env:
   ECS_SERVICE: svc-svc-lab-node
