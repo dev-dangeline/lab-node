@@ -6,7 +6,7 @@ on:
 env:
   ECS_SERVICE: svc-svc-lab-node
   ECS_CLUSTER: cluster-dev-01
-  ECS_TASK_DEFINITION: service
+  ECS_TASK_DEFINITION: ecs.capability.task-eni
   CONTAINER_NAME: application_container
 
 permissions:
