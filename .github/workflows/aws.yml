@@ -40,11 +40,6 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.TOKEN_DOCKER }}
 
-      - name: Build, tag, and push image to Amazon ECR
-        run: |
-          docker build -t gustavohenrico/lab-node:0.1 .
-          docker push gustavohenrico/lab-node:0.1
-          echo "::set-output name=image::gustavohenrico/lab-node:0.1"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -52,7 +47,7 @@ jobs:
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+          image: gustavohenrico/lab-node:0.1
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
