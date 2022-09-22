@@ -41,14 +41,7 @@ jobs:
           password: ${{ secrets.TOKEN_DOCKER }}
 
       - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
         run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
           docker build -t gustavohenrico/lab-node:$IMAGE_TAG .
           docker push gustavohenrico/lab-node:$IMAGE_TAG
           echo "::set-output name=image::gustavohenrico/lab-node:$IMAGE_TAG"
