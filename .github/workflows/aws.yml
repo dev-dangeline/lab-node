@@ -43,6 +43,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         run: |
           docker build -t gustavohenrico/lab-node:0.1 .
+          docker tag gustavohenrico/lab-node:0.1 gustavohenrico/lab-node:0.1
           docker push gustavohenrico/lab-node:0.1
           echo "::set-output name=image::gustavohenrico/lab-node:0.1"
 
