@@ -6,7 +6,7 @@ on:
 env:
   ECS_SERVICE: svc-lab-node
   ECS_CLUSTER: cluster-dev-01
-  ECS_TASK_DEFINITION: service
+  ECS_TASK_DEFINITION: lab-node
   CONTAINER_NAME: application_container
 
 permissions:
@@ -29,21 +29,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Get task-definition.json
+      - name: Describe task-definition
+        id: task-def-old
         run: |
           aws ecs describe-task-definition \
-          --task-definition lab-node \
-          --query taskDefinition > task-definition.json
+          --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+          --query taskDefinition
 
       - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
+        id: task-def-new
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: ${{ steps.task-def-new.outputs }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: gustavohenrico/lab-node:0.3
 
