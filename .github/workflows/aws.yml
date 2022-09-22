@@ -1,18 +1,36 @@
 name: Deploy to Amazon ECS
 
 on:
+  push:
   workflow_dispatch:
 
-env:
-  ECS_SERVICE: svc-lab-node
-  ECS_CLUSTER: cluster-dev-01
-  ECS_TASK_DEFINITION: lab-node
-  CONTAINER_NAME: application_container
-
-permissions:
-  contents: read
-
 jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Extract tag version
+        run: echo "GIT_TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ghcr.io/dev-dangeline/lab-node:${{ env.GIT_TAG }}
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -30,19 +48,18 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Describe task-definition
-        id: task-def-old
         run: |
           aws ecs describe-task-definition \
           --task-definition ${{ env.ECS_TASK_DEFINITION }} \
-          --query taskDefinition
+          --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def-new
+        id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-new.outputs }}
+          task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
-          image: gustavohenrico/lab-node:0.3
+          image: ghcr.io/dev-dangeline/lab-node:${{ env.GIT_TAG }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
