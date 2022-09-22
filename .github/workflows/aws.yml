@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
 
 env:
-  ECS_SERVICE: svc-svc-lab-node
+  ECS_SERVICE: svc-lab-node
   ECS_CLUSTER: cluster-dev-01
-  ECS_TASK_DEFINITION: service:6
+  ECS_TASK_DEFINITION: service
   CONTAINER_NAME: application_container
 
 permissions:
@@ -33,19 +33,17 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.TOKEN_DOCKER }}
-
+      - name: Get task-definition.json
+        run: |
+          aws ecs describe-task-definition \
+          --task-definition lab-node \
+          --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
           image: gustavohenrico/lab-node:0.1
 
