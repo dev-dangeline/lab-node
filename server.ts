@@ -8,6 +8,6 @@ app.get('/', async (request, response) => {
 });
 
 
-app.listen(3333, () => {
+app.listen(80, () => {
   console.log('Server is running!');
 });
