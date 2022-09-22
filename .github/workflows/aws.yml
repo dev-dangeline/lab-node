@@ -11,9 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Extract tag version
-        run: echo "GIT_TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -27,7 +24,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/dev-dangeline/lab-node:${{ env.GIT_TAG }}
+          tags: ghcr.io/dev-dangeline/lab-node:$BUILD_NUMBER
 
   deploy:
     name: Deploy
