@@ -24,7 +24,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/dev-dangeline/lab-node:$BUILD_NUMBER
+          tags: ghcr.io/dev-dangeline/lab-node:${{ github.run_id }}
 
   deploy:
     name: Deploy
