@@ -5,10 +5,10 @@ on:
 
 env:
   ORGANIZATION_NAME: dev-dangeline
-  REPOSITORY_NAME: lab-node
-  ECS_SERVICE: svc-lab-node
+  REPOSITORY_NAME: notification-dev
+  ECS_SERVICE: svc-notification
   ECS_CLUSTER: cluster-dev-01
-  ECS_TASK_DEFINITION: lab-node
+  ECS_TASK_DEFINITION: notification-dev
   CONTAINER_NAME: application_container
 
 jobs:
