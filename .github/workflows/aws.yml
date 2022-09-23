@@ -5,10 +5,10 @@ on:
 
 env:
   ORGANIZATION_NAME: dev-dangeline
-  REPOSITORY_NAME: notification-dev
-  ECS_SERVICE: svc-notification
+  REPOSITORY_NAME: tmov-dev
+  ECS_SERVICE: svc-tmov
   ECS_CLUSTER: cluster-dev-01
-  ECS_TASK_DEFINITION: notification-dev
+  ECS_TASK_DEFINITION: tmov-dev
   CONTAINER_NAME: application_container
 
 jobs:
