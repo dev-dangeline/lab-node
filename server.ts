@@ -8,6 +8,12 @@ app.get('/', async (request, response) => {
 });
 
 
+app.get('/notification', async (request, response) => {
+  response.send('Notification Running')
+});
+
+
+
 app.listen(80, () => {
   console.log('Server is running!');
 });
