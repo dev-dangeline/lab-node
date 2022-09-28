@@ -64,8 +64,8 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
-          image: gustavohenrico/lab-node:0.3
-
+          image: ghcr.io/${{ env.ORGANIZATION_NAME }}/${{ env.REPOSITORY_NAME }}:${{ github.run_id }}
+          
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
