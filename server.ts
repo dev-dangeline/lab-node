@@ -14,11 +14,11 @@ app.get('/:envs', async (request, response) => {
 
   
   response.send({
-   DATABASE_URL: process.env.DEBENTURISTAS_DATABASE_URL_DEV || "NOT",
-   DB_PASS: process.env.DEBENTURISTAS_DATABASE_PASS_DEV || "NOT",
-   DB_USER:  process.env.DEBENTURISTAS_DATABASE_USER_DEV || "NOT",
-   JWT_TOKEN: process.env.JWT_TOKEN_DEV || "NOT",
-   NOTIFICATION_SERVICE_API_KEY: process.env.NOTIFICATION_SERVICE_API_KEY_DEV || "NOT"
+   DATABASE_URL: process.env.DATABASE_URL || "NOT",
+   DB_PASS: process.env.DB_PASS || "NOT",
+   DB_USER:  process.env.DB_USER || "NOT",
+   JWT_TOKEN: process.env.JWT_TOKEN || "NOT",
+   NOTIFICATION_SERVICE_API_KEY: process.env.NOTIFICATION_SERVICE_API_KEY || "NOT"
     
   })
 });
