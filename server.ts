@@ -1,15 +1,12 @@
 import express from 'express';
+import dotenv from 'dotenv'
+dotenv.config();
 
 
 const app = express();
 
 app.get('/', async (request, response) => {
-  response.send('TMOV Running')
-});
-
-
-app.get('/notification', async (request, response) => {
-  response.send('Notification Running')
+  response.send(`Running ${process.env.DATABASE_URL}`)
 });
 
 
