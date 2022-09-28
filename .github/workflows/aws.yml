@@ -5,7 +5,7 @@ on:
 
 env:
   ORGANIZATION_NAME: dev-dangeline
-  REPOSITORY_NAME: debenturista-dev
+  REPOSITORY_NAME: notification-dev
   ECS_SERVICE: svc-debenturista
   ECS_CLUSTER: cluster-dev-01
   ECS_TASK_DEFINITION: debenturista-dev
