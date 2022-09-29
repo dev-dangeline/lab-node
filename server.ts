@@ -18,7 +18,7 @@ app.get('/:envs', async (request, response) => {
    DB_PASS: process.env.DB_PASS || "NOT",
    DB_USER:  process.env.DB_USER || "NOT",
    JWT_TOKEN: process.env.JWT_TOKEN || "NOT",
-   NOTIFICATION_SERVICE_API_KEY: process.env.NOTIFICATION_SERVICE_API_KEY || "NOT".
+   NOTIFICATION_SERVICE_API_KEY: process.env.NOTIFICATION_SERVICE_API_KEY || "NOT",
    TEST_ENV:  process.env.TEST_ENV || "NOT"
   })
 });
