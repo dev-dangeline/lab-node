@@ -6,10 +6,16 @@ on:
 env:
   ORGANIZATION_NAME: dev-dangeline
   REPOSITORY_NAME: notification-dev
+  CONTAINER_NAME: application_container
+  
   ECS_SERVICE: svc-debenturista-api
   ECS_CLUSTER: cluster-dev-01
   ECS_TASK_DEFINITION: debenturista-dev
-  CONTAINER_NAME: application_container
+  ECS_TASK_DEFINITION_ENV: |
+    LOG_LEVEL=info
+    ENVIRONMENT=prod
+    TEST_ENV=Valquiria
+  
 
 jobs:
   build:
@@ -65,10 +71,8 @@ jobs:
           task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
           image: ghcr.io/${{ env.ORGANIZATION_NAME }}/${{ env.REPOSITORY_NAME }}:${{ github.run_id }}
-          environment-variables: |
-            LOG_LEVEL=info
-            ENVIRONMENT=prod
-            TEST_ENV=Number 33456
+          environment-variables: ${{env.ECS_TASK_DEFINITION_ENV}}
+
           
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
