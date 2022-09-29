@@ -68,7 +68,7 @@ jobs:
           environment-variables: |
             LOG_LEVEL=info
             ENVIRONMENT=prod
-            TEST_ENV="Number 33456"
+            TEST_ENV=Number 33456
           
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
