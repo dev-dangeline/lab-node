@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "ENV"
+        required: true
+      apply_changes:
+        description: "Apply changes?"
+        default: false
+        type: boolean
+
+
+
+jobs:
+  plan_changes_prod:
+    runs-on: ubuntu-latest
+    name: Plan changes nprod
+    if: contains(${{ inputs.environment}}, 'prod')
+    steps:
+      - name: RUN
+        run: echo 'ola mundo'
+        
+        
+  apply_changes_prod:
+    runs-on: ubuntu-latest
+    name: Apply changes nprod
+    if: contains(${{ inputs.environment}}, 'prod') && ${{ inputs.apply_changes == true }}
+    steps:
+      - name: RUN
+        run: echo 'ola mundo'
+
+
+
+    
